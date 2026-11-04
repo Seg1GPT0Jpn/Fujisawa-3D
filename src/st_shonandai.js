@@ -10,6 +10,7 @@ const NAME='湘南台';const O=[-1895.2,-6385.1],ANG=Math.atan2(-0.261,0.965);
 LINE_EXT.izm=170;                       // tunnel tail west of the 相鉄 terminal
 ST_S['izm|湘南台']=166.7;ST_S['blu|湘南台']=58;
 PROF_ADJ.push({key:'izm',s0:0,s1:290,y:11.9,blend:420},{key:'blu',s0:0,s1:175,y:18.3,blend:320});
+ST_TRACKS['izm|湘南台']=[-5.8,5.8];ST_TRACKS['blu|湘南台']=[-5.4,5.4];ST_TRACKS['izm|湘南台|fixed']=1;ST_TRACKS['blu|湘南台|fixed']=1;
 LANE_ADJ.push({key:'izm',s0:0,s1:285,lo:-5.8,hi:5.8,blend:140},{key:'blu',s0:0,s1:172,lo:-5.4,hi:5.4,blend:120});
 {const F=stFrame(O[0],O[1],ANG);BLD_CLEAR.push([O[0],O[1],ANG,11.5,104]);const c=F.W(-6,7);PLAT_CLEAR.push([c[0],c[1],ANG,135,16],[O[0],O[1],ANG,12,110]);
   for(const [x,z,r] of [[-1623.2,-6585.0,19],[-1609.2,-6547.5,13]])BLD_CLEAR.push([x,z,0,r,r]);}
@@ -19,6 +20,9 @@ const ENTS=[ // top of the stairs at street level (OSM railway=subway_entrance),
 const H_A0=-145,H_A1=140,H_B0=-10,H_B1=22; // B1 hall
 function build(){
   const F=stFrame(O[0],O[1],ANG);const odn=LINES.odn,izm=LINES.izm,blu=LINES.blu;
+  // east of the station the two tunnels run side by side for ~800 m: keep at least 8.2 m between the double tracks
+  {const o=blu.path.offs;for(let i=0;i<o.length;i++){const ss=i*10;if(ss<170||ss>1000)continue;const p=blu.path.at(ss);const q=izm.path.near(p.x,p.z);const zp=izm.path.at(q.s);
+    const sg=(zp.x-p.x)*(-p.tz)+(zp.z-p.z)*p.tx;const need=Math.max(0,8.2+Math.min(0,sg))*smooth(170,230,ss);if(sg<0&&need>0)o[i]=[o[i][0]+need,o[i][1]+need];}}
   const g0=demH(O[0],O[1]);const B1=g0-6.6,B1c=B1+3.9;const B2t=blu.path.py(58)+1.1,B3t=izm.path.py(166.7)+1.1;
   const gb=new GB(),colls=[],inn=new GB(),out=new GB();inn.glass=new GB();
   const TILE=C_('#d9d4c9'),TILE2=C_('#c9c3b6'),WALL=C_('#eeebe4'),CEIL=C_('#f2f1ec'),DARK=C_('#3a3f45'),PAID=C_('#e3e8ec'),ODA=C_('#1a5fb4'),SOT=C_('#1d3c8f'),BLU=C_('#0072bc');
