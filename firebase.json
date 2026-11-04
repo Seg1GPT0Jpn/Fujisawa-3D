@@ -1,0 +1,9 @@
+{
+  "hosting": {
+    "public": ".",
+    "ignore": ["firebase.json", "**/.*", "**/node_modules/**", "src/**", "bake/**", "tests/**", "README.md"],
+    "headers": [
+      { "source": "**/*.@(wasm|jpg)", "headers": [{ "key": "Cache-Control", "value": "public, max-age=3600" }] }
+    ]
+  }
+}

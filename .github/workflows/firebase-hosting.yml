@@ -1,0 +1,17 @@
+# main に push すると Firebase Hosting（プロジェクト fujisawa-3d）へ公開する
+name: Deploy to Firebase Hosting
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: FirebaseExtended/action-hosting-deploy@v0
+        with:
+          repoToken: ${{ secrets.GITHUB_TOKEN }}
+          firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_FUJISAWA_3D }}
+          channelId: live
+          projectId: fujisawa-3d
